@@ -1,0 +1,89 @@
+[gd_scene load_steps=3 format=3 uid="uid://cosavsjjs4wcq"]
+
+[ext_resource type="Script" uid="uid://dqepv4o20wqtf" path="res://scripts/menu.gd" id="1_upctu"]
+[ext_resource type="PackedScene" uid="uid://b04dntv6v68p0" path="res://scenes/ParalaxBG1.tscn" id="2_11y2r"]
+
+[node name="Menu" type="Node2D"]
+position = Vector2(230, 139)
+script = ExtResource("1_upctu")
+
+[node name="ParalaxBG1" parent="." instance=ExtResource("2_11y2r")]
+position = Vector2(-25, -139)
+scale = Vector2(3.351939, 2.8429813)
+
+[node name="Test1" type="Button" parent="."]
+modulate = Color(0, 1, 0, 1)
+offset_left = 56.0
+offset_top = -4.0
+offset_right = 239.0
+offset_bottom = 53.0
+text = "Test 1"
+
+[node name="Test2" type="Button" parent="."]
+modulate = Color(0, 1, 1, 1)
+offset_left = 269.0
+offset_top = -4.0
+offset_right = 452.0
+offset_bottom = 53.0
+text = "Test 2"
+
+[node name="Button2" type="Button" parent="."]
+offset_left = 486.0
+offset_top = 88.0
+offset_right = 669.0
+offset_bottom = 145.0
+text = "empty"
+
+[node name="Button3" type="Button" parent="."]
+offset_left = 268.0
+offset_top = 90.0
+offset_right = 451.0
+offset_bottom = 147.0
+text = "empty"
+
+[node name="Button4" type="Button" parent="."]
+offset_left = 56.0
+offset_top = 92.0
+offset_right = 239.0
+offset_bottom = 149.0
+text = "empty"
+
+[node name="Button5" type="Button" parent="."]
+offset_left = 484.0
+offset_top = -3.0
+offset_right = 667.0
+offset_bottom = 54.0
+text = "empty"
+
+[node name="Button7" type="Button" parent="."]
+offset_left = 275.0
+offset_top = 184.0
+offset_right = 458.0
+offset_bottom = 241.0
+text = "empty"
+
+[node name="Button8" type="Button" parent="."]
+offset_left = 489.0
+offset_top = 184.0
+offset_right = 672.0
+offset_bottom = 241.0
+text = "empty"
+
+[node name="Button9" type="Button" parent="."]
+offset_left = 56.0
+offset_top = 183.0
+offset_right = 239.0
+offset_bottom = 240.0
+text = "empty"
+
+[node name="Test3" type="Button" parent="."]
+modulate = Color(1, 0, 0, 1)
+offset_left = 810.0
+offset_top = 419.0
+offset_right = 883.0
+offset_bottom = 480.0
+text = "X"
+
+[connection signal="pressed" from="Test1" to="." method="_on_test_1_pressed"]
+[connection signal="pressed" from="Test2" to="." method="_on_test_2_pressed"]
+[connection signal="pressed" from="Test3" to="." method="_on_test_3_pressed"]

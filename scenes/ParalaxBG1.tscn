@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://b04dntv6v68p0"]
+
+[ext_resource type="Texture2D" uid="uid://di7gxhgao3of3" path="res://art/MountainDuskGodot/MountainDuskGodot/MountainsLayers/sky.png" id="1_v8l7u"]
+[ext_resource type="Texture2D" uid="uid://b30j345ypavy8" path="res://art/MountainDuskGodot/MountainDuskGodot/MountainsLayers/far-clouds.png" id="2_t3x0g"]
+[ext_resource type="Texture2D" uid="uid://cw31h2cskf47d" path="res://art/MountainDuskGodot/MountainDuskGodot/MountainsLayers/far-mountains.png" id="3_xrybi"]
+[ext_resource type="Texture2D" uid="uid://d2tscqxen83rf" path="res://art/MountainDuskGodot/MountainDuskGodot/MountainsLayers/mountains.png" id="4_nw3nj"]
+
+[node name="ParalaxBG1" type="Node2D"]
+
+[node name="Parallax2D5" type="Parallax2D" parent="."]
+scroll_offset = Vector2(-1, 0)
+repeat_size = Vector2(324.92, 0)
+autoscroll = Vector2(1, 0)
+repeat_times = 2
+
+[node name="Sky" type="Sprite2D" parent="Parallax2D5"]
+position = Vector2(161.5, 118)
+scale = Vector2(1.015625, 1)
+texture = ExtResource("1_v8l7u")
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+repeat_size = Vector2(127.95, 0)
+autoscroll = Vector2(2, 0)
+repeat_times = 6
+
+[node name="FarClouds2" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(64, 121)
+texture = ExtResource("2_t3x0g")
+
+[node name="Parallax2D2" type="Parallax2D" parent="."]
+repeat_size = Vector2(159.865, 0)
+autoscroll = Vector2(3, 0)
+repeat_times = 5
+
+[node name="FarMountains" type="Sprite2D" parent="Parallax2D2"]
+position = Vector2(80, 121)
+texture = ExtResource("3_xrybi")
+
+[node name="Parallax2D3" type="Parallax2D" parent="."]
+repeat_size = Vector2(471.27, 0)
+autoscroll = Vector2(5, 0)
+repeat_times = 2
+
+[node name="Mountains" type="Sprite2D" parent="Parallax2D3"]
+position = Vector2(272, 188)
+texture = ExtResource("4_nw3nj")

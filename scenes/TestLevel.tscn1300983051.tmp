@@ -1,0 +1,169 @@
+[gd_scene load_steps=13 format=3 uid="uid://bb7h7sg3ibdbw"]
+
+[ext_resource type="PackedScene" uid="uid://kwirmuxv2wds" path="res://scenes/Frog.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://op0ay8dyd3dg" path="res://scenes/Enemy.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/MovingPlatform.tscn" id="3_df0lk"]
+
+[sub_resource type="RectangleShape2D" id="S_WALL_HUGE"]
+size = Vector2(1400, 32)
+
+[sub_resource type="RectangleShape2D" id="S_WALL_V_BIG"]
+size = Vector2(32, 800)
+
+[sub_resource type="RectangleShape2D" id="S_CEIL_COVER"]
+size = Vector2(420, 24)
+
+[sub_resource type="RectangleShape2D" id="S_LEDGE"]
+size = Vector2(600, 24)
+
+[sub_resource type="RectangleShape2D" id="S_PILLAR"]
+size = Vector2(32, 360)
+
+[sub_resource type="RectangleShape2D" id="S_TUNNEL_TOP"]
+size = Vector2(520, 24)
+
+[sub_resource type="RectangleShape2D" id="S_TUNNEL_BTM"]
+size = Vector2(520, 24)
+
+[sub_resource type="RectangleShape2D" id="S_STEP"]
+size = Vector2(240, 24)
+
+[sub_resource type="RectangleShape2D" id="S_SMALL"]
+size = Vector2(160, 20)
+
+[node name="TestLevel" type="Node2D"]
+
+[node name="Frog" parent="." instance=ExtResource("1")]
+
+[node name="Camera2D" type="Camera2D" parent="Frog"]
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="Top" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, -400)
+
+[node name="CS" type="CollisionShape2D" parent="Walls/Top"]
+shape = SubResource("S_WALL_HUGE")
+
+[node name="Poly" type="Polygon2D" parent="Walls/Top"]
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(-700, -16, 700, -16, 700, 16, -700, 16)
+
+[node name="Bottom" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, 400)
+
+[node name="CS" type="CollisionShape2D" parent="Walls/Bottom"]
+shape = SubResource("S_WALL_HUGE")
+
+[node name="Poly" type="Polygon2D" parent="Walls/Bottom"]
+color = Color(0, 1, 0, 1)
+polygon = PackedVector2Array(-700, -16, 700, -16, 700, 16, -700, 16)
+
+[node name="Left" type="StaticBody2D" parent="Walls"]
+position = Vector2(-700, 0)
+
+[node name="CS" type="CollisionShape2D" parent="Walls/Left"]
+shape = SubResource("S_WALL_V_BIG")
+
+[node name="Poly" type="Polygon2D" parent="Walls/Left"]
+color = Color(0, 0, 1, 1)
+polygon = PackedVector2Array(-16, -400, 16, -400, 16, 400, -16, 400)
+
+[node name="Right" type="StaticBody2D" parent="Walls"]
+position = Vector2(700, 0)
+
+[node name="CS" type="CollisionShape2D" parent="Walls/Right"]
+shape = SubResource("S_WALL_V_BIG")
+
+[node name="Poly" type="Polygon2D" parent="Walls/Right"]
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-16, -400, 16, -400, 16, 400, -16, 400)
+
+[node name="Geo" type="Node2D" parent="."]
+
+[node name="CeilCover" type="StaticBody2D" parent="Geo"]
+position = Vector2(260, -220)
+
+[node name="CS" type="CollisionShape2D" parent="Geo/CeilCover"]
+shape = SubResource("S_CEIL_COVER")
+
+[node name="Poly" type="Polygon2D" parent="Geo/CeilCover"]
+color = Color(1, 0.5, 0, 1)
+polygon = PackedVector2Array(-210, -12, 210, -12, 210, 12, -210, 12)
+
+[node name="Ledge" type="StaticBody2D" parent="Geo"]
+position = Vector2(-120, -40)
+
+[node name="CS" type="CollisionShape2D" parent="Geo/Ledge"]
+shape = SubResource("S_LEDGE")
+
+[node name="Poly" type="Polygon2D" parent="Geo/Ledge"]
+color = Color(0.6, 0, 1, 1)
+polygon = PackedVector2Array(-300, -12, 300, -12, 300, 12, -300, 12)
+
+[node name="Pillar" type="StaticBody2D" parent="Geo"]
+position = Vector2(200, -80)
+
+[node name="CS" type="CollisionShape2D" parent="Geo/Pillar"]
+shape = SubResource("S_PILLAR")
+
+[node name="Poly" type="Polygon2D" parent="Geo/Pillar"]
+color = Color(0, 1, 1, 1)
+polygon = PackedVector2Array(-16, -180, 16, -180, 16, 180, -16, 180)
+
+[node name="TunnelTop" type="StaticBody2D" parent="Geo"]
+position = Vector2(120, 120)
+
+[node name="CS" type="CollisionShape2D" parent="Geo/TunnelTop"]
+shape = SubResource("S_TUNNEL_TOP")
+
+[node name="Poly" type="Polygon2D" parent="Geo/TunnelTop"]
+color = Color(1, 0, 0.5, 1)
+polygon = PackedVector2Array(-260, -12, 260, -12, 260, 12, -260, 12)
+
+[node name="TunnelBottom" type="StaticBody2D" parent="Geo"]
+position = Vector2(120, 220)
+
+[node name="CS" type="CollisionShape2D" parent="Geo/TunnelBottom"]
+shape = SubResource("S_TUNNEL_BTM")
+
+[node name="Poly" type="Polygon2D" parent="Geo/TunnelBottom"]
+color = Color(0, 0.7, 0.3, 1)
+polygon = PackedVector2Array(-260, -12, 260, -12, 260, 12, -260, 12)
+
+[node name="Step" type="StaticBody2D" parent="Geo"]
+position = Vector2(-380, 220)
+
+[node name="CS" type="CollisionShape2D" parent="Geo/Step"]
+shape = SubResource("S_STEP")
+
+[node name="Poly" type="Polygon2D" parent="Geo/Step"]
+color = Color(1, 0.7, 0, 1)
+polygon = PackedVector2Array(-120, -12, 120, -12, 120, 12, -120, 12)
+
+[node name="Small1" type="StaticBody2D" parent="Geo"]
+position = Vector2(-520, -140)
+
+[node name="CS" type="CollisionShape2D" parent="Geo/Small1"]
+shape = SubResource("S_SMALL")
+
+[node name="Poly" type="Polygon2D" parent="Geo/Small1"]
+color = Color(0.3, 0.9, 1, 1)
+polygon = PackedVector2Array(-80, -10, 80, -10, 80, 10, -80, 10)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="EnemyA" parent="Enemies" instance=ExtResource("2")]
+position = Vector2(-300, -80)
+patrol_half = 100.0
+
+[node name="EnemyB" parent="Enemies" instance=ExtResource("2")]
+position = Vector2(260, -40)
+patrol_half = 120.0
+
+[node name="EnemyC" parent="Enemies" instance=ExtResource("2")]
+position = Vector2(80, 200)
+patrol_half = 160.0
+
+[node name="MovingPlatform" parent="Enemies" instance=ExtResource("3_df0lk")]
+position = Vector2(537, 21)

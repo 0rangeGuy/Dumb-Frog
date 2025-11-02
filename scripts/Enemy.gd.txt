@@ -1,0 +1,107 @@
+extends RigidBody2D
+
+@export var touch_damage: int = 1        # сколько HP снимать за касание
+@export var damage_cooldown: float = 0.5 # секунд между ударами по игроку
+var _can_hit: bool = true
+
+@export var speed: float = 90.0
+@export var patrol_half: float = 140.0
+@export var flip_on_wall: bool = true
+@export var tint: Color = Color(1, 0.2, 0.2, 1) # цвет врага (красный по умолчанию)
+
+var _origin_x: float
+var _dir: int = 1
+var _alive: bool = true
+
+func _ready() -> void:
+	_ensure_nodes()
+	_ensure_damage_area()
+	_origin_x = global_position.x
+	add_to_group("enemy")
+
+
+func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+	if not _alive:
+		return
+	var v := state.get_linear_velocity()
+	v.x = speed * _dir
+	state.set_linear_velocity(v)
+	if global_position.x > _origin_x + patrol_half: _dir = -1
+	elif global_position.x < _origin_x - patrol_half: _dir = 1
+
+func _on_hit_wall() -> void:
+	if flip_on_wall: _dir *= -1
+
+func kill() -> void:
+	if not _alive: return
+	_alive = false
+	collision_layer = 0
+	collision_mask = 0
+	set_deferred("sleeping", true)
+	queue_free()
+
+# ---- visuals ---------------------------------------------------------------
+
+func _ensure_nodes() -> void:
+	# --- CollisionShape2D ---
+	var col := get_node_or_null("CollisionShape2D")
+	if col == null:
+		col = CollisionShape2D.new()
+		col.name = "CollisionShape2D"
+		add_child(col)
+	if col.shape == null:
+		var rs := RectangleShape2D.new()
+		rs.size = Vector2(16, 16) # подгони под свой размер
+		col.shape = rs
+
+func _ensure_damage_area() -> void:
+	# Создаём Area2D для «контактного» урона
+	var area := get_node_or_null("DamageArea") as Area2D
+	if area == null:
+		area = Area2D.new()
+		area.name = "DamageArea"
+		add_child(area)
+
+	# Коллайдер для Area2D — берём форму из основного CollisionShape2D, если есть
+	var col := area.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if col == null:
+		col = CollisionShape2D.new()
+		col.name = "CollisionShape2D"
+		area.add_child(col)
+
+	# попытка скопировать shape из основного коллайдера врага
+	var base_col := get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if base_col and base_col.shape:
+		col.shape = base_col.shape.duplicate()
+	elif col.shape == null:
+		var rs := RectangleShape2D.new()
+		rs.size = Vector2(16, 16)
+		col.shape = rs
+
+	area.monitoring = true
+	area.monitorable = true
+
+	# ВАЖНО: маски столкновений — реагируем ТОЛЬКО на слой игрока (обычно 1)
+	area.collision_layer = 0          # сама Area2D ни на кого не «давит»
+	area.collision_mask = 1 << 0      # слушаем слой 1 (бит 0)
+
+
+	# Подпишемся на вход тел
+	if not area.is_connected("body_entered", Callable(self, "_on_damage_body_entered")):
+		area.body_entered.connect(_on_damage_body_entered)
+
+
+func _on_damage_body_entered(body: Node) -> void:
+	if not _can_hit: return
+	if body.is_in_group("player"):
+		PlayerState.damage(touch_damage)   # PlayerState — автозагрузка
+		_can_hit = false
+		get_tree().create_timer(damage_cooldown)\
+			.timeout.connect(func(): _can_hit = true)
+
+
+
+func _make_solid_texture(w: int, h: int, col: Color) -> Texture2D:
+	var img := Image.create(w, h, false, Image.FORMAT_RGBA8)
+	img.fill(col)
+	return ImageTexture.create_from_image(img)

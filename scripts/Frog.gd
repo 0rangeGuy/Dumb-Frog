@@ -9,6 +9,7 @@ extends RigidBody2D
 @onready var tongue: Node = $Tongue
 
 func _ready() -> void:
+	add_to_group("player")
 	# Передаём в язык: жабу и визуалы (RopeSim и/или Line2D)
 	var rope := $Tongue.get_node_or_null("Rope")     # узел из аддона RopeSim (переименуй в "Rope")
 	var line := $Tongue.get_node_or_null("Line2D")   # запасной Line2D (не обязателен)
@@ -17,7 +18,7 @@ func _ready() -> void:
 func is_on_floor() -> bool:
 	return ray_floor.is_colliding()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var dir := Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	if abs(linear_velocity.x) < max_run_speed:
 		apply_force(Vector2(move_force * dir, 0.0))

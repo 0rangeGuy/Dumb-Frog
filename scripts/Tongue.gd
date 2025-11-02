@@ -259,20 +259,19 @@ func _polyline_length(poly: Array[Vector2]) -> float:
 @export var ray_start_eps: float = 0.5   # смещение старта луча вперёд (пиксели)
 
 func _raycast(from: Vector2, to: Vector2, exclude_nodes: Array[Node]) -> Dictionary:
-	var space: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
-	var dir := (to - from)
-	var len := dir.length()
-	if len <= 0.0001:
+	var dir := to - from
+	var seg_len := dir.length()
+	if seg_len <= 0.0001:
 		return {}
-	var nd := dir / len
+	var nd := dir / seg_len
 
-	# общий набор RID для исключения
+	var space: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+
 	var ex: Array[RID] = []
 	for n in exclude_nodes:
 		if n is CollisionObject2D:
 			ex.append((n as CollisionObject2D).get_rid())
 
-	# соберём 3 луча: центральный и два с боковым смещением
 	var side := Vector2(-nd.y, nd.x) * ray_side_eps
 	var origins := [
 		from + nd * ray_start_eps,
@@ -284,7 +283,7 @@ func _raycast(from: Vector2, to: Vector2, exclude_nodes: Array[Node]) -> Diction
 	var best_dist := INF
 
 	for o in origins:
-		var q := PhysicsRayQueryParameters2D.create(o, o + nd * (len - ray_start_eps))
+		var q := PhysicsRayQueryParameters2D.create(o, o + nd * (seg_len - ray_start_eps))
 		q.exclude = ex
 		q.collision_mask = ray_mask
 		q.hit_from_inside = true
@@ -299,17 +298,19 @@ func _raycast(from: Vector2, to: Vector2, exclude_nodes: Array[Node]) -> Diction
 
 	return closest
 
+
 @export var end_shrink_eps: float = 2.0  # укоротить луч перед якорем, пиксели
 
 func _raycast_including_target(from: Vector2, to: Vector2, exclude_nodes: Array[Node]) -> Dictionary:
 	# как _raycast, но НЕ исключаем target_body и укорачиваем луч на end_shrink_eps
 	var space: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+	
 	var dir := to - from
-	var len := dir.length()
-	if len <= 0.0001:
+	var seg_len := dir.length()
+	if seg_len <= 0.0001:
 		return {}
-	var nd := dir / len
-	var to2 := to - nd * end_shrink_eps
+	var nd := dir / seg_len
+
 
 	# исключаем только то, что реально надо (обычно — лягушку)
 	var ex: Array[RID] = []
@@ -328,7 +329,7 @@ func _raycast_including_target(from: Vector2, to: Vector2, exclude_nodes: Array[
 	var closest := {}
 	var best_dist := INF
 	for o in origins:
-		var q := PhysicsRayQueryParameters2D.create(o, to2)
+		var q := PhysicsRayQueryParameters2D.create(o, o + nd * (seg_len - ray_start_eps))
 		q.exclude = ex
 		q.collision_mask = ray_mask
 		q.hit_from_inside = true

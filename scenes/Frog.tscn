@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://kwirmuxv2wds"]
 
-[ext_resource type="Texture2D" uid="uid://ccfsvl6fthvw6" path="res://art/sprites/frog.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://ccfsvl6fthvw6" path="res://art/etc/frog.png" id="1"]
 [ext_resource type="Script" uid="uid://mv0ol4agacbr" path="res://scripts/Frog.gd" id="2"]
 [ext_resource type="Script" uid="uid://cs5a8yxflq44s" path="res://scripts/Tongue.gd" id="3"]
 
