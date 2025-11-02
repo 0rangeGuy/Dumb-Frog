@@ -1,5 +1,1 @@
-res://scenes/Menu.tscn
-res://scripts/menu.gd
-res://scripts/test_level.gd
-res://scripts/UnifiedTongue.gd
-res://scripts/Tongue.gd
+res://scenes/MapTileTest.tscn
