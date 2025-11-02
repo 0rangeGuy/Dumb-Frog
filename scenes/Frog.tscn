@@ -25,7 +25,7 @@ scale = Vector2(1.5715574, 0.45883372)
 shape = SubResource("1")
 
 [node name="RayFloor" type="RayCast2D" parent="."]
-target_position = Vector2(0, 22)
+target_position = Vector2(0, 3)
 
 [node name="Tongue" type="Node2D" parent="."]
 script = ExtResource("3")
