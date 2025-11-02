@@ -30,12 +30,17 @@ func _physics_process(_delta: float) -> void:
 	angular_velocity = 0.0
 	rotation = 0.0
 
+# --- Godot 4.x ---
+func _mouse_world() -> Vector2:
+	# Конвертируем координаты курсора экрана в мировые с учётом активной Camera2D
+	return get_canvas_transform().affine_inverse() * get_viewport().get_mouse_position()
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump") and is_on_floor():
 		apply_central_impulse(jump_impulse)
 
 	if event.is_action_pressed("tongue_fire"):
-		tongue.call("fire", get_global_mouse_position())
+		tongue.call("fire", _mouse_world())
 
 	if event.is_action_pressed("tongue_release"):
 		tongue.call("release")

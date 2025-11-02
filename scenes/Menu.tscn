@@ -9,7 +9,7 @@ script = ExtResource("1_upctu")
 
 [node name="ParalaxBG1" parent="." instance=ExtResource("2_11y2r")]
 position = Vector2(-25, -139)
-scale = Vector2(3.351939, 2.8429813)
+scale = Vector2(3.35194, 2.84298)
 
 [node name="Test1" type="Button" parent="."]
 modulate = Color(0, 1, 0, 1)

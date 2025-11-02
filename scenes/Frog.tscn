@@ -1,35 +1,44 @@
 [gd_scene load_steps=5 format=3 uid="uid://kwirmuxv2wds"]
 
-[ext_resource type="Texture2D" uid="uid://ccfsvl6fthvw6" path="res://art/etc/frog.png" id="1"]
-[ext_resource type="Script" uid="uid://mv0ol4agacbr" path="res://scripts/Frog.gd" id="2"]
-[ext_resource type="Script" uid="uid://cs5a8yxflq44s" path="res://scripts/Tongue.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://ccfsvl6fthvw6" path="res://art/etc/frog.png" id="1_frog_texture"]
+[ext_resource type="Script" uid="uid://mv0ol4agacbr" path="res://scripts/Frog.gd" id="2_frog_script"]
+[ext_resource type="Script" uid="uid://cs5a8yxflq44s" path="res://scripts/Tongue.gd" id="3_tongue_script"]
 
-[sub_resource type="RectangleShape2D" id="1"]
+[sub_resource type="RectangleShape2D" id="1_collision_shape"]
 size = Vector2(15.271477, 47.947655)
+
+[sub_resource type="CircleShape2D" id="2_detection_shape"]
+radius = 20.0
 
 [node name="Frog" type="RigidBody2D"]
 collision_layer = 2
 mass = 1.5
 linear_damp = 0.05
 angular_damp = 8.0
-script = ExtResource("2")
+script = ExtResource("2_frog_script")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(0, -8)
 scale = Vector2(0.03125, 0.03125)
-texture = ExtResource("1")
+texture = ExtResource("1_frog_texture")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -7.999999)
 scale = Vector2(1.5715574, 0.45883372)
-shape = SubResource("1")
+shape = SubResource("1_collision_shape")
 
 [node name="RayFloor" type="RayCast2D" parent="."]
 target_position = Vector2(0, 3)
 
 [node name="Tongue" type="Node2D" parent="."]
-script = ExtResource("3")
+script = ExtResource("3_tongue_script")
 
 [node name="Line2D" type="Line2D" parent="Tongue"]
 width = 2.0
 default_color = Color(0.8, 1, 0.8, 1)
+
+[node name="TongueDetectionArea" type="Area2D" parent="."]
+position = Vector2(6, -6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TongueDetectionArea"]
+shape = SubResource("2_detection_shape")
